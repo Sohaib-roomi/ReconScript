@@ -62,11 +62,11 @@ if [ ! -f "$url/recon/potential_takeovers/potential_takeovers.txt" ];then
 	touch $url/recon/potential_takeovers/potential_takeovers.txt
 fi
  
-subjack -w $url/recon/final.txt -t 100 -timeout 30 -ssl -c ~/go/src/github.com/haccer/subjack/fingerprints.json -v 3 -o $url/recon/potential_takeovers/potential_takeovers.txt
+subjack -w $url/recon/final.txt -t 100 -timeout 30 -ssl -c home/kali/go/pkg/mod/github.com/haccer/subjack@v0.0.0-20201112041112-49c51e57deab/fingerprints.json -v 3 -o $url/recon/potential_takeovers/potential_takeovers.txt
  
 echo "[+] Scanning for open ports..."
-nmap -iL $url/recon/httprobe/alive.txt -T4 -oA $url/recon/scans/scanned.txt
- 
+nmap -iL $url/recon/httprobe/alive.txt -T4 -p 1-10000 -n --scan-delay 1s -oA $url/recon/scans/scanned
+
 echo "[+] Scraping wayback data..."
 cat $url/recon/final.txt | waybackurls >> $url/recon/wayback/wayback_output.txt
 sort -u $url/recon/wayback/wayback_output.txt
